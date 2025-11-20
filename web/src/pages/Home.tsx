@@ -2,6 +2,8 @@ import {useState} from "react";
 import {HomeHeader} from "../components/layout/HomeHeader";
 import {TodoSection} from "../components/home/TodoSection";
 import {FloatingActionButton} from "../components/home/FloatingActionButton";
+import {useTasks} from "@/service/tasks/queries";
+import {Task} from "@/service/tasks/types";
 
 interface Todo {
   id: string;
@@ -17,14 +19,15 @@ const initialTodos: Todo[] = [
 ];
 
 export function Home() {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  // const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   const handleToggle = (id: string, completed: boolean) => {
-    setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? {...todo, completed} : todo)));
+    // setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? {...todo, completed} : todo)));
   };
 
-  const todoItems = todos.filter((todo) => !todo.completed);
-  const completedItems = todos.filter((todo) => todo.completed);
+  const {data: tasks} = useTasks();
+  const todoItems = tasks?.filter((task) => !task.completed) || ([] as Task[]);
+  const completedItems = tasks?.filter((task) => task.completed) || ([] as Task[]);
 
   return (
     <div className="min-h-screen border bg-[#F6F7F8] flex flex-col overflow-y-auto">
