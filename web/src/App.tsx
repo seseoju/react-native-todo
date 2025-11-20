@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { Header } from "./components/Header";
+import { TodoSection } from "./components/TodoSection";
+import { FloatingActionButton } from "./components/FloatingActionButton";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface Todo {
+  id: string;
+  text: string;
+  completed: boolean;
 }
 
-export default App
+const initialTodos: Todo[] = [
+  { id: "1", text: "Design the new onboarding flow", completed: false },
+  { id: "2", text: "Develop the main feature", completed: false },
+  { id: "3", text: "Finalize the color palette for the app", completed: false },
+  { id: "4", text: "Review user feedback from survey", completed: true },
+];
+
+function App() {
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+
+  const handleToggle = (id: string, completed: boolean) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, completed } : todo
+      )
+    );
+  };
+
+  const handleAddTask = () => {
+    const newTask = prompt("Enter a new task:");
+    if (newTask && newTask.trim()) {
+      setTodos((prevTodos) => [
+        ...prevTodos,
+        {
+          id: Date.now().toString(),
+          text: newTask.trim(),
+          completed: false,
+        },
+      ]);
+    }
+  };
+
+  const todoItems = todos.filter((todo) => !todo.completed);
+  const completedItems = todos.filter((todo) => todo.completed);
+
+  return (
+    <div className="min-h-screen bg-[#F6F7F8] flex flex-col overflow-y-auto">
+      <Header />
+      <main className="flex flex-col gap-8 px-4 pb-[426px] flex-1">
+        <TodoSection
+          title="To-Do"
+          todos={todoItems}
+          onToggle={handleToggle}
+        />
+        <TodoSection
+          title="Completed"
+          todos={completedItems}
+          onToggle={handleToggle}
+        />
+      </main>
+      <FloatingActionButton onClick={handleAddTask} />
+    </div>
+  );
+}
+
+export default App;
