@@ -1,10 +1,10 @@
 import {DarkTheme, DefaultTheme, ThemeProvider} from "@react-navigation/native";
 import {StatusBar} from "expo-status-bar";
 import "react-native-reanimated";
-import {StyleSheet, View} from "react-native";
 import {WebView} from "react-native-webview";
 
 import {useColorScheme} from "@/hooks/use-color-scheme";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -17,19 +17,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <View style={styles.container}>
-        <WebView source={{uri}} style={styles.webview} />
-      </View>
+      <SafeAreaProvider style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1}}>
+          <WebView source={{uri}} />
+        </SafeAreaView>
+      </SafeAreaProvider>
       <StatusBar style="auto" />
     </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  webview: {
-    flex: 1,
-  },
-});
