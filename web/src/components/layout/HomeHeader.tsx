@@ -1,4 +1,4 @@
-export function Header() {
+export function HomeHeader() {
   return (
     <header className="flex justify-between items-center w-full px-4 pt-4 pb-2">
       <div className="w-12 h-12" />
