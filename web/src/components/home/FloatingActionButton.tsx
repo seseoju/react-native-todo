@@ -1,4 +1,5 @@
 import { Plus } from "lucide-react";
+import { Link } from "react-router";
 import { cn } from "@/lib/utils";
 
 interface FloatingActionButtonProps {
@@ -7,7 +8,8 @@ interface FloatingActionButtonProps {
 
 export function FloatingActionButton({ onClick }: FloatingActionButtonProps) {
   return (
-    <button
+    <Link
+      to="/new"
       onClick={onClick}
       className={cn(
         "fixed bottom-8 right-8 w-16 h-16 rounded-full bg-[#137FEC]",
@@ -19,7 +21,7 @@ export function FloatingActionButton({ onClick }: FloatingActionButtonProps) {
       aria-label="Add new task"
     >
       <Plus className="w-6 h-6" strokeWidth={2.5} />
-    </button>
+    </Link>
   );
 }
 

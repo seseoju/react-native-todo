@@ -23,20 +23,6 @@ export function Home() {
     setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? {...todo, completed} : todo)));
   };
 
-  const handleAddTask = () => {
-    const newTask = prompt("Enter a new task:");
-    if (newTask && newTask.trim()) {
-      setTodos((prevTodos) => [
-        ...prevTodos,
-        {
-          id: Date.now().toString(),
-          text: newTask.trim(),
-          completed: false,
-        },
-      ]);
-    }
-  };
-
   const todoItems = todos.filter((todo) => !todo.completed);
   const completedItems = todos.filter((todo) => todo.completed);
 
@@ -47,7 +33,7 @@ export function Home() {
         <TodoSection title="To-Do" todos={todoItems} onToggle={handleToggle} />
         <TodoSection title="Completed" todos={completedItems} onToggle={handleToggle} />
       </main>
-      <FloatingActionButton onClick={handleAddTask} />
+      <FloatingActionButton />
     </div>
   );
 }
