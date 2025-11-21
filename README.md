@@ -9,6 +9,8 @@
 - [x] Figma MCP 기반 React + Tailwind 컴포넌트 생성 [(framelink)](https://www.framelink.ai/)
 - [x] React Router 기반 라우터 구성
 - [x] React Query와 Supabase를 사용한 API 구현
+- [x] EAS 빌드 통해 테스트 APK 생성 (ios는?)
+- [ ] Splash 처리
 - [ ] native 기능 구현
 
 ### 트러블 슈팅
