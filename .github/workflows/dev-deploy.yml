@@ -31,7 +31,15 @@ jobs:
             deploymentUrl=$(cat deployment-url.txt)
 
             vercel alias $deploymentUrl dev-react-native-todo-one.vercel.app \
-              --token=${{ secrets.VERCEL_TOKEN }} > /dev/null 2>&1
+              --token=${{ secrets.VERCEL_TOKEN }} > /dev/null 2>alias-error.txt
+
+            if [ $? -eq 0 ]; then
+              echo "Deployed to custom domain successfully"
+            else
+              echo "Deployed to custom domain failed"
+              cat alias-error.txt
+              exit 1
+            fi
 
             curl -H "Content-Type: application/json" \
               -d '{
