@@ -31,8 +31,7 @@ jobs:
             deploymentUrl=$(cat deployment-url.txt)
 
             vercel alias $deploymentUrl dev-react-native-todo-one.vercel.app \
-              --token=${{ secrets.VERCEL_TOKEN }} \
-              --silent
+              --token=${{ secrets.VERCEL_TOKEN }} > /dev/null 2>&1
 
             curl -H "Content-Type: application/json" \
               -d '{
