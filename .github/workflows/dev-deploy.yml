@@ -19,16 +19,26 @@ jobs:
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy & Alias to Custom Domain
+      - name: Deploy, Alias & Notify Discord
         run: |
+          set +e
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
             > deployment-url.txt 2> error.txt
-
           code=$?
+          set -e
+
           if [ $code -eq 0 ]; then
             deploymentUrl=$(cat deployment-url.txt)
+
             vercel alias $deploymentUrl dev-react-native-todo-one.vercel.app \
               --token=${{ secrets.VERCEL_TOKEN }}
+
+            curl -H "Content-Type: application/json" \
+              -d '{
+                "content": "🚀 Develop 배포 완료\n🔗 https://dev-react-native-todo-one.vercel.app"
+              }' \
+              ${{ secrets.DISCORD_WEBHOOK_URL }}
+
           else
             echo "Vercel deploy failed"
             cat error.txt
